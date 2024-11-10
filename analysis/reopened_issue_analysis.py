@@ -74,7 +74,10 @@ class ReopenedIssueAnalysis:
         
         # Sorting all labels by count to determine the top 5
         sorted_labels_counts = sorted(zip(labels, counts), key=lambda x: x[1], reverse=True)
-        top_5_labels = [label for label, _ in sorted_labels_counts[:5]]
+        # Determine the threshold count for top 5 (including ties)
+        threshold_count = sorted_labels_counts[4][1]  # Get the 5th highest count
+        # Include all labels with counts greater than or equal to the threshold
+        top_5_labels = [label for label, count in sorted_labels_counts if count >= threshold_count]
 
         plt.figure(figsize=(10,6))
         bars = plt.bar(labels, counts)
